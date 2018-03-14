@@ -1,0 +1,45 @@
+import ij.*;
+import ij.measure.*;
+import ij.text.*;
+import ij.gui.*;
+import ij.plugin.*;
+import ij.plugin.filter.*;
+import ij.io.*;
+import ij.process.*;
+import java.awt.*;
+import java.lang.*;
+import ij.IJ;
+
+rwin=2.0;
+ImagePlus imp=IJ.getImage();
+w=imp.getWidth();
+h=imp.getHeight();
+TextPanel tp=IJ.getTextPanel();
+ResultsTable rt=tp.getResultsTable();
+nmax=rt.getCounter();
+cxi=rt.getColumnIndex("cx");
+cyi=rt.getColumnIndex("cy");
+float[] X= rt.getColumn(rt.getColumnIndex("X"));
+float[] Y= rt.getColumn(rt.getColumnIndex("Y"));
+
+double[] cx=rt.getColumnAsDoubles(cxi);
+double[] cy=rt.getColumnAsDoubles(cyi);
+
+
+IJ.run("Plots...", "width=450 height=200 font=12 draw draw_ticks list fixed minimum=-25 maximum=225 interpolate");
+for (n=0; n<nmax;n++) {
+	if (cx[n]>=rwin && cy[n]>=rwin && cx[n]<w-rwin && cy[n]<h-rwin) {
+	    OvalRoi oval = new OvalRoi(cx[n]+0.0-rwin, cy[n]+0.0-rwin, rwin*2.0, rwin*2.0);
+	    imp.setRoi(oval);
+		IJ.run("MultiCh ZAxisProfiler");	
+		IJ.saveAs("jpeg", "/Applications/ImageJ/work/tmp/FP_"+n+"_"+Y[n]+"_"+X[n]+"_r"+rwin+".jpg");
+		ImagePlus oimp=IJ.getImage();
+		oimp.close();	
+		IJ.selectWindow("Plot Values");
+		IJ.saveAs("Results", "/Applications/ImageJ/work/Values/FPValues_"+n+"_"+(int)(Y[n])+"_"+(int)(X[n])+"_r"+rwin+".txt");
+		IJ.run("Close", "FPValues_"+n+"_"+(int)(Y[n])+"_"+(int)(X[n])+"_r"+rwin+".txt");
+	}
+}
+
+
+  
