@@ -9,7 +9,7 @@ import ij.util.Tools;
 import java.awt.*;
 import ij.plugin.ZAxisProfiler;
 
-/** Implements the Image/Stacks/Plot Z-axis Profile command, 
+/** Extends the Image/Stacks/Plot Z-axis Profile command, 
 	which plots the selection mean gray value versus slice number.
 */
 public class MultiCh_ZAxisProfiler extends ZAxisProfiler {
@@ -221,18 +221,6 @@ public class MultiCh_ZAxisProfiler extends ZAxisProfiler {
 		}
 		return values;
 	}
-
-    /*	
-	private ImageStatistics getLineStatistics(Roi roi, ImageProcessor ip, int measurements, Calibration cal) {
-		ImagePlus imp = new ImagePlus("", ip);
-		imp.setRoi(roi);
-		ProfilePlot profile = new ProfilePlot(imp);
-		double[] values = profile.getProfile();
-		ImageProcessor ip2 = new FloatProcessor(values.length, 1, values);
-		return ImageStatistics.getStatistics(ip2, measurements, cal);
-	}
-    */	
-
 }
 
  
